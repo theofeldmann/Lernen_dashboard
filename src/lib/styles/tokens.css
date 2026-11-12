@@ -20,30 +20,27 @@
 	/* Akzent (änderbar in Einstellungen → Darstellung) */
 	--accent: var(--accent-orange);
 	--accent-soft: color-mix(in srgb, var(--accent) 10%, var(--surface));
-	--accent-orange: #c2410c;
-	--accent-blue: #1d4ed8;
-	--accent-green: #047857;
-	--accent-violet: #6d28d9;
-	--accent-graphite: #16181d;
+	--accent-orange: #b93d0a;
+	--accent-tanne: #14532d;
+	--accent-wein: #881337;
 
-	/* Status, bewusst zurückhaltend */
-	--positive: #047857;
+	/* Status: nur für zerstörende Aktionen (z. B. Konto löschen) */
 	--danger: #b91c1c;
 	--focus: #16181d;
 
 	/* Fachfarben: als Marker und als Text auf --surface/--bg lesbar */
-	--subject-blau: #2563eb;
+	--subject-blau: #1d55d6;
 	--subject-rot: #c81e1e;
-	--subject-petrol: #0e7490;
+	--subject-petrol: #0b5394;
 	--subject-violett: #7c3aed;
 	--subject-gruen: #047857;
-	--subject-ocker: #a5520a;
-	--subject-oliv: #4d7c0f;
-	--subject-rost: #9a3412;
+	--subject-senf: #7f6400;
+	--subject-oliv: #466f0d;
+	--subject-braun: #7a4b2a;
 	--subject-schiefer: #475569;
 	--subject-magenta: #be185d;
-	--subject-tuerkis: #0f766e;
-	--subject-indigo: #4338ca;
+	--subject-tuerkis: #00727a;
+	--subject-pflaume: #86198f;
 
 	/* Typografie */
 	--font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
@@ -109,12 +106,9 @@
 	--text-on-accent: #16181c;
 
 	--accent-orange: #fb8c4a;
-	--accent-blue: #7aa2f7;
-	--accent-green: #34d399;
-	--accent-violet: #b197fc;
-	--accent-graphite: #eceef1;
+	--accent-tanne: #86d9a8;
+	--accent-wein: #fda4c0;
 
-	--positive: #34d399;
 	--danger: #f87171;
 	--focus: #eceef1;
 
@@ -123,13 +117,13 @@
 	--subject-petrol: #38bdd8;
 	--subject-violett: #b197fc;
 	--subject-gruen: #34d399;
-	--subject-ocker: #f2a93b;
+	--subject-senf: #e0c24a;
 	--subject-oliv: #a3d14a;
-	--subject-rost: #fb9a62;
+	--subject-braun: #d2a77f;
 	--subject-schiefer: #a3b1c4;
 	--subject-magenta: #f47ab6;
-	--subject-tuerkis: #2dd4bf;
-	--subject-indigo: #9aa5ff;
+	--subject-tuerkis: #5eead4;
+	--subject-pflaume: #e879f9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -145,12 +139,9 @@
 		--text-on-accent: #16181c;
 
 		--accent-orange: #fb8c4a;
-		--accent-blue: #7aa2f7;
-		--accent-green: #34d399;
-		--accent-violet: #b197fc;
-		--accent-graphite: #eceef1;
+		--accent-tanne: #86d9a8;
+		--accent-wein: #fda4c0;
 
-		--positive: #34d399;
 		--danger: #f87171;
 		--focus: #eceef1;
 
@@ -159,26 +150,20 @@
 		--subject-petrol: #38bdd8;
 		--subject-violett: #b197fc;
 		--subject-gruen: #34d399;
-		--subject-ocker: #f2a93b;
+		--subject-senf: #e0c24a;
 		--subject-oliv: #a3d14a;
-		--subject-rost: #fb9a62;
+		--subject-braun: #d2a77f;
 		--subject-schiefer: #a3b1c4;
 		--subject-magenta: #f47ab6;
-		--subject-tuerkis: #2dd4bf;
-		--subject-indigo: #9aa5ff;
+		--subject-tuerkis: #5eead4;
+		--subject-pflaume: #e879f9;
 	}
 }
 
-/* Akzent-Auswahl */
-:root[data-accent='blue'] {
-	--accent: var(--accent-blue);
+/* Akzent-Auswahl (Standard: orange) */
+:root[data-accent='tanne'] {
+	--accent: var(--accent-tanne);
 }
-:root[data-accent='green'] {
-	--accent: var(--accent-green);
-}
-:root[data-accent='violet'] {
-	--accent: var(--accent-violet);
-}
-:root[data-accent='graphite'] {
-	--accent: var(--accent-graphite);
+:root[data-accent='wein'] {
+	--accent: var(--accent-wein);
 }

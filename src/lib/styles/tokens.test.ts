@@ -24,6 +24,25 @@ function luminance(hex: string): number {
 	return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
+function mix(a: string, b: string, p: number): string {
+	const ch = (h: string, i: number) => parseInt(h.slice(i, i + 2), 16);
+	return (
+		'#' +
+		[1, 3, 5]
+			.map((i) =>
+				Math.round(ch(a, i) * p + ch(b, i) * (1 - p))
+					.toString(16)
+					.padStart(2, '0')
+			)
+			.join('')
+	);
+}
+
+function distance(a: string, b: string): number {
+	const ch = (h: string, i: number) => parseInt(h.slice(i, i + 2), 16);
+	return Math.hypot(...[1, 3, 5].map((i) => ch(a, i) - ch(b, i)));
+}
+
 export function contrast(a: string, b: string): number {
 	const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
 	return (l1 + 0.05) / (l2 + 0.05);
@@ -53,15 +72,46 @@ describe.each([
 	it('jede Fachfarbe ist als Text auf Hintergrund und Fläche lesbar (≥ 4,5:1)', () => {
 		expect(subjects.length).toBeGreaterThanOrEqual(10);
 		for (const s of subjects)
-			for (const bg of ['bg', 'surface'])
+			for (const bg of ['bg', 'surface', 'surface-sunken'])
 				expect(contrast(t[s], t[bg]), `${s} auf ${bg}`).toBeGreaterThanOrEqual(4.5);
 	});
 
-	it('jede Akzentfarbe trägt Button-Text und ist selbst als Text lesbar', () => {
+	it('jede Akzentfarbe trägt Button-Text und ist auf allen Flächen als Text lesbar', () => {
+		expect(accents.length).toBeGreaterThanOrEqual(3);
 		for (const a of accents) {
 			expect(contrast(t['text-on-accent'], t[a]), `Text auf ${a}`).toBeGreaterThanOrEqual(4.5);
-			expect(contrast(t[a], t.surface), `${a} auf surface`).toBeGreaterThanOrEqual(4.5);
+			const soft = mix(t[a], t.surface, 0.1); // entspricht --accent-soft
+			for (const [name, bg] of [
+				['bg', t.bg],
+				['surface', t.surface],
+				['surface-sunken', t['surface-sunken']],
+				['accent-soft', soft]
+			])
+				expect(contrast(t[a], bg), `${a} auf ${name}`).toBeGreaterThanOrEqual(4.5);
 		}
+	});
+
+	it('Akzentfarben sind klar von Text, Fach- und Statusfarben unterscheidbar', () => {
+		for (const a of accents) {
+			expect(t[a]).not.toBe(t.text);
+			for (const other of [...subjects, 'danger'])
+				expect(distance(t[a], t[other]), `${a} vs. ${other}`).toBeGreaterThanOrEqual(35);
+		}
+	});
+
+	it('Gefahr-Farbe ist als Text und als Button lesbar', () => {
+		for (const bg of ['bg', 'surface', 'surface-sunken'])
+			expect(contrast(t.danger, t[bg]), `danger auf ${bg}`).toBeGreaterThanOrEqual(4.5);
+		expect(contrast(t['text-on-accent'], t.danger)).toBeGreaterThanOrEqual(4.5);
+	});
+
+	it('Fachfarben sind untereinander unterscheidbar', () => {
+		for (let i = 0; i < subjects.length; i++)
+			for (let j = i + 1; j < subjects.length; j++)
+				expect(
+					distance(t[subjects[i]], t[subjects[j]]),
+					`${subjects[i]} vs. ${subjects[j]}`
+				).toBeGreaterThanOrEqual(30);
 	});
 
 	it('Fokusring und kräftige Rahmen heben sich ab (≥ 3:1)', () => {
