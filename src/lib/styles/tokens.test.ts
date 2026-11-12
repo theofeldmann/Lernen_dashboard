@@ -147,10 +147,12 @@ describe.each([
 		}
 	});
 
-	it('Gefahr-Farbe ist als Text und als Button lesbar', () => {
+	it('Gefahr-Farbe ist lesbar und von jeder Fachfarbe unterscheidbar', () => {
 		for (const bg of ['bg', 'surface', 'surface-sunken'])
 			expect(contrast(t.danger, t[bg]), `danger auf ${bg}`).toBeGreaterThanOrEqual(4.5);
 		expect(contrast(t['text-on-accent'], t.danger)).toBeGreaterThanOrEqual(4.5);
+		for (const sub of subjects)
+			expect(deltaE(t.danger, t[sub]), `danger vs. ${sub}`).toBeGreaterThanOrEqual(10);
 	});
 
 	it('Fachfarben sind untereinander unterscheidbar (ΔE2000 ≥ 10)', () => {

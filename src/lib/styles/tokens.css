@@ -25,7 +25,7 @@
 	--accent-wein: #881337;
 
 	/* Status: nur für zerstörende Aktionen (z. B. Konto löschen) */
-	--danger: #b80f25;
+	--danger: #9c0d16;
 	--focus: #16181d;
 
 	/* Fachfarben: als Marker und als Text auf --surface/--bg lesbar */
@@ -109,7 +109,7 @@
 	--accent-tanne: #afe4b8;
 	--accent-wein: #fbadc1;
 
-	--danger: #f87171;
+	--danger: #d18f85;
 	--focus: #eceef1;
 
 	--subject-blau: #7aa2f7;
@@ -142,7 +142,7 @@
 		--accent-tanne: #afe4b8;
 		--accent-wein: #fbadc1;
 
-		--danger: #f87171;
+		--danger: #d18f85;
 		--focus: #eceef1;
 
 		--subject-blau: #7aa2f7;
