@@ -26,3 +26,4 @@ Kleine Entscheidungen, die ich selbst getroffen habe, plus die bestätigten Antw
 - Fachfarben werden als Token-Name gespeichert (z. B. `violett`), damit hell und dunkel automatisch passen. Zwölf Farben stehen zur Wahl, zwei davon sind für neue Fächer frei.
 - Kräftige Rahmen (`--border-strong`, z. B. für Checkboxen) haben mindestens 3:1 Kontrast (WCAG 1.4.11).
 - Bei einer Schrift (Geist) geblieben. Eine zweite Schrift für Zahlen wäre möglich, ist aber nicht nötig.
+- Nach Prüfung angepasst: Akzent-Auswahl auf Orange, Tanne und Wein reduziert. Blau, Grün, Violett und Graphit fielen weg, weil sie mit Fachfarben, Status oder Text zusammenfielen. `--positive` ist gestrichen, weil nicht gebraucht. Chemie ist jetzt „senf“, W&R „braun“, die zweite freie Farbe „pflaume“, damit sich nichts mit dem orangen Akzent beißt.

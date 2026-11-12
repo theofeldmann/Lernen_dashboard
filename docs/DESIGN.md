@@ -8,7 +8,7 @@ Alle Werte stehen in `src/lib/styles/tokens.css`. Die Kontraste prüft `src/lib/
 - Ruhig, neutral und dicht wie ein Profi-Werkzeug. Viel Information auf einen Blick, keine Deko.
 - **Eine Akzentfarbe** (Standard Signalorange) markiert nur die _eine_ Aktion pro Ansicht, die gerade zählt, zum Beispiel „Start“ oder „Gewusst“. Alles andere ist neutral.
 - **Fachfarben** erscheinen als schmaler Marker (3 × 14 px) oder als Text, nie als große Fläche.
-- **Überfällig** wird in Akzentfarbe als Text markiert, nicht rot und nicht fett.
+- **Überfällig** steht immer als Wort da („überfällig“) und zusätzlich in Akzentfarbe, nicht rot und nicht fett. Die Information hängt nie nur an der Farbe.
 - Tastenkürzel werden am Desktop als `kbd` angezeigt, am Handy ausgeblendet.
 
 ## Typografie
@@ -27,21 +27,26 @@ Alle Werte stehen in `src/lib/styles/tokens.css`. Die Kontraste prüft `src/lib/
 
 ## Fachfarben (Zuordnung der Startfächer)
 
-| Fach                     | Token                                   |
-| ------------------------ | --------------------------------------- |
-| Mathematik               | `--subject-blau`                        |
-| Deutsch                  | `--subject-rot`                         |
-| Englisch                 | `--subject-petrol`                      |
-| Latein                   | `--subject-violett`                     |
-| Physik                   | `--subject-gruen`                       |
-| Chemie                   | `--subject-ocker`                       |
-| Geographie               | `--subject-oliv`                        |
-| Wirtschaft & Recht       | `--subject-rost`                        |
-| Religion                 | `--subject-schiefer`                    |
-| Politik und Gesellschaft | `--subject-magenta`                     |
-| frei für neue Fächer     | `--subject-tuerkis`, `--subject-indigo` |
+| Fach                     | Token                                    |
+| ------------------------ | ---------------------------------------- |
+| Mathematik               | `--subject-blau`                         |
+| Deutsch                  | `--subject-rot`                          |
+| Englisch                 | `--subject-petrol`                       |
+| Latein                   | `--subject-violett`                      |
+| Physik                   | `--subject-gruen`                        |
+| Chemie                   | `--subject-senf`                         |
+| Geographie               | `--subject-oliv`                         |
+| Wirtschaft & Recht       | `--subject-braun`                        |
+| Religion                 | `--subject-schiefer`                     |
+| Politik und Gesellschaft | `--subject-magenta`                      |
+| frei für neue Fächer     | `--subject-tuerkis`, `--subject-pflaume` |
 
 In der Datenbank wird nur der Name des Tokens gespeichert (z. B. `violett`), nie ein Hexwert. So passt die Farbe automatisch zu hell und dunkel.
+
+## Akzentfarben
+
+- Wählbar sind **Orange** (Standard), **Tanne** und **Wein**. Sie sind so gewählt, dass keine einer Fachfarbe, der Gefahr-Farbe oder der Textfarbe gleicht. Ein Test prüft den Mindestabstand.
+- Status: Nur `--danger` für zerstörende Aktionen, zum Beispiel „Konto löschen“. Für richtig und falsch gibt es keine Ampelfarben, die Abfrage arbeitet mit Graphit, Grau und Akzent.
 
 ## Bewegung
 
@@ -62,4 +67,4 @@ In der Datenbank wird nur der Name des Tokens gespeichert (z. B. `violett`), nie
 ## Barrierefreiheit
 
 - Fokusring 2 px in `--focus` mit 2 px Abstand, mindestens 3:1 zu jedem Hintergrund. Wenn ein Element auf eigener Fläche sitzt, setzt die Komponente `--focus` lokal passend.
-- Kontraste sind über Tests abgesichert. Neue Farben kommen nur über `tokens.css` mit Test hinzu.
+- Kontraste sind über Tests abgesichert: Text, gedämpfter Text, Fach-, Akzent- und Gefahr-Farbe auf allen Flächen (inklusive `--surface-sunken` und `--accent-soft`), ≥ 4,5:1. Neue Farben kommen nur über `tokens.css` mit Test hinzu.
