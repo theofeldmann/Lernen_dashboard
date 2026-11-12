@@ -5,11 +5,32 @@
 	import '@fontsource/ibm-plex-sans/600.css';
 	import { Check, RotateCcw, ScanLine, ChevronRight, X } from '@lucide/svelte';
 	import Frame from '../Frame.svelte';
-	import { subjects, today, homework, review, decks, exams, averages, overall, fmt, quiz as q, gradePrompt, type SubjectKey } from '../data';
+	import {
+		subjects,
+		today,
+		homework,
+		review,
+		decks,
+		exams,
+		averages,
+		overall,
+		fmt,
+		quiz as q,
+		gradePrompt,
+		type SubjectKey
+	} from '../data';
 
 	const color: Record<SubjectKey, string> = {
-		mathe: '#1f6f8b', deutsch: '#a23b2a', englisch: '#2f5d9e', latein: '#6e4a86', physik: '#276b4e',
-		chemie: '#8a5512', geo: '#58742c', wr: '#86553a', religion: '#5f5f86', pug: '#99385f'
+		mathe: '#1f6f8b',
+		deutsch: '#a23b2a',
+		englisch: '#2f5d9e',
+		latein: '#6e4a86',
+		physik: '#276b4e',
+		chemie: '#8a5512',
+		geo: '#58742c',
+		wr: '#86553a',
+		religion: '#5f5f86',
+		pug: '#99385f'
 	};
 	let done = $state<boolean[]>(homework.map(() => false));
 	let flipped = $state(false);
@@ -19,10 +40,24 @@
 
 <Frame letter="a" title="Schulheft">
 	{#snippet about()}
-		<p><strong>Schrift:</strong> Source Serif 4 für Überschriften und große Zahlen, IBM Plex Sans für Text und Bedienung. Alle Zahlen sind tabellarisch gesetzt.</p>
-		<p><strong>Farben:</strong> Kühles Heftpapier statt Creme, Tinte in Königsblau für Text und Aktionen und ein roter Heftrand als einziges Ornament. Die Fachfarben sind gedeckt wie Buntstifte.</p>
-		<p><strong>Stimmung:</strong> Ein ordentlich geführtes Heft. Termine und Noten stehen im Rand, wie Anmerkungen der Lehrkraft. Die Karteikarte sieht aus wie eine echte DIN-A7-Karte mit rotem Kopfstrich. Ruhig, vertraut und ernsthaft.</p>
-		<p><strong>Dunkelmodus:</strong> Tintenblaues Nachtpapier (#151c2c) mit hellgrauen Linien. Der Heftrand bleibt rot, aber gedämpft. Die Fachfarben werden aufgehellt, damit sie auf dem dunklen Grund AA-Kontrast halten.</p>
+		<p>
+			<strong>Schrift:</strong> Source Serif 4 für Überschriften und große Zahlen, IBM Plex Sans für Text
+			und Bedienung. Alle Zahlen sind tabellarisch gesetzt.
+		</p>
+		<p>
+			<strong>Farben:</strong> Kühles Heftpapier statt Creme, Tinte in Königsblau für Text und Aktionen
+			und ein roter Heftrand als einziges Ornament. Die Fachfarben sind gedeckt wie Buntstifte.
+		</p>
+		<p>
+			<strong>Stimmung:</strong> Ein ordentlich geführtes Heft. Termine und Noten stehen im Rand, wie
+			Anmerkungen der Lehrkraft. Die Karteikarte sieht aus wie eine echte DIN-A7-Karte mit rotem Kopfstrich.
+			Ruhig, vertraut und ernsthaft.
+		</p>
+		<p>
+			<strong>Dunkelmodus:</strong> Tintenblaues Nachtpapier (#151c2c) mit hellgrauen Linien. Der Heftrand
+			bleibt rot, aber gedämpft. Die Fachfarben werden aufgehellt, damit sie auf dem dunklen Grund AA-Kontrast
+			halten.
+		</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -32,17 +67,28 @@
 				<h1>{today.weekday},<br />{today.date}</h1>
 			</header>
 
-			
 			<section>
 				<h2>Heute</h2>
 				<ul class="lines">
 					{#each homework as hw, i (hw.title)}
 						<li class:done={done[i]}>
-							<span class="margin-note" class:overdue={hw.overdue}>{hw.overdue ? 'gestern' : 'heute'}</span>
-							<button class="check" aria-pressed={done[i]} aria-label="{hw.title} erledigt" onclick={() => (done[i] = !done[i])}>
+							<span class="margin-note" class:overdue={hw.overdue}
+								>{hw.overdue ? 'gestern' : 'heute'}</span
+							>
+							<button
+								class="check"
+								aria-pressed={done[i]}
+								aria-label="{hw.title} erledigt"
+								onclick={() => (done[i] = !done[i])}
+							>
 								{#if done[i]}<Check size={14} strokeWidth={2} />{/if}
 							</button>
-							<span class="txt"><span class="subj" style:color={color[hw.subject]}>{subjects[hw.subject].short}</span> {hw.title}</span>
+							<span class="txt"
+								><span class="subj" style:color={color[hw.subject]}
+									>{subjects[hw.subject].short}</span
+								>
+								{hw.title}</span
+							>
 						</li>
 					{/each}
 				</ul>
@@ -51,10 +97,19 @@
 			<section class="review">
 				<h2>Wiederholen</h2>
 				<p class="big">Heute fällig: <span class="num">{review.due}</span> Karten</p>
-				<div class="ink" role="progressbar" aria-valuenow={review.done} aria-valuemax={review.goal} aria-label="Tagesziel">
+				<div
+					class="ink"
+					role="progressbar"
+					aria-valuenow={review.done}
+					aria-valuemax={review.goal}
+					aria-label="Tagesziel"
+				>
 					<span style:width="{(review.done / review.goal) * 100}%"></span>
 				</div>
-				<p class="small"><span class="num">{review.done} von {review.goal}</span> fürs Tagesziel · seit {review.streak} Tagen dran</p>
+				<p class="small">
+					<span class="num">{review.done} von {review.goal}</span> fürs Tagesziel · seit {review.streak}
+					Tagen dran
+				</p>
 				<button class="primary">Wiederholen starten</button>
 			</section>
 
@@ -63,31 +118,50 @@
 				{#each decks as d (d.name)}
 					<a class="deck" href="#top">
 						<span class="dot" style:background={color[d.subject]}></span>
-						<span class="txt">{d.name}<small><span class="num">{d.cards}</span> Karten, zuletzt {d.lastUsed.toLowerCase()}</small></span>
+						<span class="txt"
+							>{d.name}<small
+								><span class="num">{d.cards}</span> Karten, zuletzt {d.lastUsed.toLowerCase()}</small
+							></span
+						>
 						<ChevronRight size={18} strokeWidth={1.5} />
 					</a>
 				{/each}
-				<button class="secondary"><ScanLine size={18} strokeWidth={1.5} /> Neue Seite scannen</button>
+				<button class="secondary"
+					><ScanLine size={18} strokeWidth={1.5} /> Neue Seite scannen</button
+				>
 			</section>
 
 			<section>
 				<h2>Nächste Prüfungen</h2>
 				<div class="next">
 					<p class="nextdays">Noch <span class="num">{exams[0].days}</span> Tage</p>
-					<p><span class="subj" style:color={color[exams[0].subject]}>{subjects[exams[0].subject].name}</span>, {exams[0].title}<small class="num">{exams[0].date}, {exams[0].time} Uhr</small></p>
+					<p>
+						<span class="subj" style:color={color[exams[0].subject]}
+							>{subjects[exams[0].subject].name}</span
+						>, {exams[0].title}<small class="num">{exams[0].date}, {exams[0].time} Uhr</small>
+					</p>
 				</div>
 				<ul class="lines">
 					{#each exams.slice(1) as e (e.date)}
 						<li>
 							<span class="margin-note num">{e.date.slice(4)}</span>
-							<span class="txt"><span class="subj" style:color={color[e.subject]}>{subjects[e.subject].name}</span> {e.title}{#if e.time}<small class="num">{e.time} Uhr</small>{/if}</span>
+							<span class="txt"
+								><span class="subj" style:color={color[e.subject]}>{subjects[e.subject].name}</span>
+								{e.title}{#if e.time}<small class="num">{e.time} Uhr</small>{/if}</span
+							>
 							<span class="days num">noch {e.days} Tage</span>
 						</li>
 					{/each}
 				</ul>
 				<aside class="prompt">
-					<p><span class="dot" style:background={color[gradePrompt.subject]}></span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} vom {gradePrompt.date} ist vorbei.</p>
-					<div class="row"><button class="link">Note eintragen</button><button class="link quiet">Später</button></div>
+					<p>
+						<span class="dot" style:background={color[gradePrompt.subject]}></span>{subjects[
+							gradePrompt.subject
+						].name}, {gradePrompt.title} vom {gradePrompt.date} ist vorbei.
+					</p>
+					<div class="row">
+						<button class="link">Note eintragen</button><button class="link quiet">Später</button>
+					</div>
 				</aside>
 			</section>
 
@@ -97,7 +171,10 @@
 					{#each averages as a (a.subject)}
 						<li>
 							<span class="margin-note grade num">{fmt(a.avg)}</span>
-							<span class="txt"><span class="dot" style:background={color[a.subject]}></span>{subjects[a.subject].name}</span>
+							<span class="txt"
+								><span class="dot" style:background={color[a.subject]}></span>{subjects[a.subject]
+									.name}</span
+							>
 							<span class="singles num">{a.grades.join('  ') || 'noch keine Note'}</span>
 						</li>
 					{/each}
@@ -131,8 +208,12 @@
 			</button>
 
 			<div class="answer" class:show={flipped}>
-				<button class="no" disabled={!flipped}><RotateCcw size={18} strokeWidth={1.5} /> Nicht gewusst</button>
-				<button class="yes" disabled={!flipped}><Check size={18} strokeWidth={1.5} /> Gewusst</button>
+				<button class="no" disabled={!flipped}
+					><RotateCcw size={18} strokeWidth={1.5} /> Nicht gewusst</button
+				>
+				<button class="yes" disabled={!flipped}
+					><Check size={18} strokeWidth={1.5} /> Gewusst</button
+				>
 			</div>
 			<p class="keys">Leertaste: umdrehen · 1 / 2: bewerten · oder wischen</p>
 		</div>
@@ -152,10 +233,18 @@
 		box-sizing: border-box;
 		min-height: 100%;
 		background:
-			linear-gradient(to right, transparent calc(var(--margin) - 1px), var(--rand) calc(var(--margin) - 1px), var(--rand) var(--margin), transparent var(--margin)),
+			linear-gradient(
+				to right,
+				transparent calc(var(--margin) - 1px),
+				var(--rand) calc(var(--margin) - 1px),
+				var(--rand) var(--margin),
+				transparent var(--margin)
+			),
 			var(--paper);
 		color: var(--ink);
-		font: 15px/1.5 'IBM Plex Sans', sans-serif;
+		font:
+			15px/1.5 'IBM Plex Sans',
+			sans-serif;
 		padding: 28px 20px 40px calc(var(--margin) + 16px);
 		font-variant-numeric: tabular-nums;
 	}
@@ -163,13 +252,17 @@
 		font-variant-numeric: tabular-nums lining-nums;
 	}
 	h1 {
-		font: 600 34px/1.08 'Source Serif 4 Variable', serif;
+		font:
+			600 34px/1.08 'Source Serif 4 Variable',
+			serif;
 		font-variation-settings: 'opsz' 60;
 		letter-spacing: -0.01em;
 		margin: 0;
 	}
 	h2 {
-		font: 600 20px/1.2 'Source Serif 4 Variable', serif;
+		font:
+			600 20px/1.2 'Source Serif 4 Variable',
+			serif;
 		margin: 0 0 6px;
 	}
 	.top {
@@ -265,7 +358,9 @@
 		font-size: 13px;
 	}
 	.nextdays {
-		font: 600 40px/1.05 'Source Serif 4 Variable', serif;
+		font:
+			600 40px/1.05 'Source Serif 4 Variable',
+			serif;
 		margin-bottom: 4px !important;
 	}
 	.prompt p {
@@ -280,7 +375,9 @@
 		background: none;
 		border: 0;
 		padding: 6px 0;
-		font: 600 15px 'IBM Plex Sans', sans-serif;
+		font:
+			600 15px 'IBM Plex Sans',
+			sans-serif;
 		color: var(--blue);
 		text-decoration: underline;
 		text-underline-offset: 3px;
@@ -299,7 +396,9 @@
 		flex: none;
 	}
 	.review .big {
-		font: 500 28px/1.15 'Source Serif 4 Variable', serif;
+		font:
+			500 28px/1.15 'Source Serif 4 Variable',
+			serif;
 		margin: 4px 0 14px;
 	}
 	.review .big .num {
@@ -334,7 +433,9 @@
 		min-height: 44px;
 		padding: 0 18px;
 		border-radius: 6px;
-		font: 600 15px 'IBM Plex Sans', sans-serif;
+		font:
+			600 15px 'IBM Plex Sans',
+			sans-serif;
 		cursor: pointer;
 	}
 	.primary {
@@ -365,7 +466,9 @@
 		white-space: nowrap;
 	}
 	.grades .grade {
-		font: 600 17px 'Source Serif 4 Variable', serif;
+		font:
+			600 17px 'Source Serif 4 Variable',
+			serif;
 		color: var(--ink);
 		top: 9px;
 	}
@@ -375,7 +478,9 @@
 		white-space: pre;
 	}
 	.overall {
-		font: 600 18px 'Source Serif 4 Variable', serif;
+		font:
+			600 18px 'Source Serif 4 Variable',
+			serif;
 		margin: 12px 0 0;
 	}
 	/* Abfrage */
@@ -411,7 +516,7 @@
 	.card {
 		margin: auto 0 24px;
 		aspect-ratio: 74 / 90;
-				border: 0;
+		border: 0;
 		padding: 0;
 		background: none;
 		position: relative;
@@ -429,10 +534,13 @@
 		inset: 0;
 		backface-visibility: hidden;
 		background:
-			repeating-linear-gradient(to bottom, transparent 0 27px, #cfdbe6 27px 28px) 0 50px / 100% calc(100% - 50px) no-repeat,
+			repeating-linear-gradient(to bottom, transparent 0 27px, #cfdbe6 27px 28px) 0 50px / 100%
+				calc(100% - 50px) no-repeat,
 			#fff;
 		border-radius: 3px;
-		box-shadow: 0 1px 2px rgba(31, 43, 68, 0.18), 0 8px 24px -12px rgba(31, 43, 68, 0.35);
+		box-shadow:
+			0 1px 2px rgba(31, 43, 68, 0.18),
+			0 8px 24px -12px rgba(31, 43, 68, 0.35);
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -459,7 +567,9 @@
 		margin-bottom: 30px;
 	}
 	.term {
-		font: 600 44px/44px 'Source Serif 4 Variable', serif;
+		font:
+			600 44px/44px 'Source Serif 4 Variable',
+			serif;
 		margin-top: 12px;
 		font-variation-settings: 'opsz' 60;
 	}
@@ -472,10 +582,14 @@
 		font-weight: 500;
 	}
 	.forms {
-		font: italic 400 21px/28px 'Source Serif 4 Variable', serif;
+		font:
+			italic 400 21px/28px 'Source Serif 4 Variable',
+			serif;
 	}
 	.meaning {
-		font: 600 23px/28px 'IBM Plex Sans', sans-serif;
+		font:
+			600 23px/28px 'IBM Plex Sans',
+			sans-serif;
 		margin-top: 28px;
 		color: var(--blue);
 	}
@@ -501,7 +615,9 @@
 		justify-content: center;
 		gap: 8px;
 		border-radius: 6px;
-		font: 600 15px 'IBM Plex Sans', sans-serif;
+		font:
+			600 15px 'IBM Plex Sans',
+			sans-serif;
 		cursor: pointer;
 	}
 	.no {

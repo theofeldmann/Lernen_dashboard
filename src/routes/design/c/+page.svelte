@@ -2,13 +2,32 @@
 	import '@fontsource-variable/bricolage-grotesque';
 	import { Check, ScanLine, X, ArrowRight, Undo2 } from '@lucide/svelte';
 	import Frame from '../Frame.svelte';
-	import { subjects, homework, review, decks, exams, averages, overall, fmt, quiz as q, gradePrompt, type SubjectKey } from '../data';
+	import {
+		subjects,
+		homework,
+		review,
+		decks,
+		exams,
+		averages,
+		overall,
+		fmt,
+		quiz as q,
+		gradePrompt,
+		type SubjectKey
+	} from '../data';
 
 	// [Fläche, Text darauf]
 	const c: Record<SubjectKey, [string, string]> = {
-		mathe: ['#2f5bff', '#ffffff'], deutsch: ['#ff5a36', '#1b1b1b'], englisch: ['#00a3a3', '#1b1b1b'], latein: ['#ffc533', '#1b1b1b'],
-		physik: ['#1fb26b', '#1b1b1b'], chemie: ['#ff8f3d', '#1b1b1b'], geo: ['#9ccc4a', '#1b1b1b'], wr: ['#7b4ff0', '#ffffff'],
-		religion: ['#c9a77c', '#1b1b1b'], pug: ['#ff74ad', '#1b1b1b']
+		mathe: ['#2f5bff', '#ffffff'],
+		deutsch: ['#ff5a36', '#1b1b1b'],
+		englisch: ['#00a3a3', '#1b1b1b'],
+		latein: ['#ffc533', '#1b1b1b'],
+		physik: ['#1fb26b', '#1b1b1b'],
+		chemie: ['#ff8f3d', '#1b1b1b'],
+		geo: ['#9ccc4a', '#1b1b1b'],
+		wr: ['#7b4ff0', '#ffffff'],
+		religion: ['#c9a77c', '#1b1b1b'],
+		pug: ['#ff74ad', '#1b1b1b']
 	};
 	let done = $state<boolean[]>(homework.map(() => false));
 	let flipped = $state(false);
@@ -19,10 +38,24 @@
 
 <Frame letter="c" title="Farbig und mutig">
 	{#snippet about()}
-		<p><strong>Schrift:</strong> Bricolage Grotesque in vielen Schnitten: extrafett und schmal für große Zahlen und Überschriften, normal für Text. Die Typo selbst ist die Grafik.</p>
-		<p><strong>Farben:</strong> Weiß und fast Schwarz als Bühne, darauf große, flache Flächen in den Fachfarben. Latein ist Gelb, Mathe Blau, Deutsch Orangerot. Keine Verläufe und keine Schatten, Schrift auf Farbe ist immer kontrastgeprüft.</p>
-		<p><strong>Stimmung:</strong> Selbstbewusst und ein bisschen verspielt, wie ein gut gestaltetes Schulbuch-Cover. Was ansteht, nimmt Fläche ein. Beim Abfragen färbt sich der ganze Bildschirm in der Fachfarbe.</p>
-		<p><strong>Dunkelmodus:</strong> Fast schwarze Bühne (#161616). Die Fachflächen bleiben kräftig, werden aber eine Spur dunkler. Schrift darauf wird je nach Fläche hell oder dunkel gesetzt, damit der Kontrast stimmt.</p>
+		<p>
+			<strong>Schrift:</strong> Bricolage Grotesque in vielen Schnitten: extrafett und schmal für große
+			Zahlen und Überschriften, normal für Text. Die Typo selbst ist die Grafik.
+		</p>
+		<p>
+			<strong>Farben:</strong> Weiß und fast Schwarz als Bühne, darauf große, flache Flächen in den Fachfarben.
+			Latein ist Gelb, Mathe Blau, Deutsch Orangerot. Keine Verläufe und keine Schatten, Schrift auf Farbe
+			ist immer kontrastgeprüft.
+		</p>
+		<p>
+			<strong>Stimmung:</strong> Selbstbewusst und ein bisschen verspielt, wie ein gut gestaltetes Schulbuch-Cover.
+			Was ansteht, nimmt Fläche ein. Beim Abfragen färbt sich der ganze Bildschirm in der Fachfarbe.
+		</p>
+		<p>
+			<strong>Dunkelmodus:</strong> Fast schwarze Bühne (#161616). Die Fachflächen bleiben kräftig, werden
+			aber eine Spur dunkler. Schrift darauf wird je nach Fläche hell oder dunkel gesetzt, damit der Kontrast
+			stimmt.
+		</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -35,9 +68,21 @@
 			<section class="hw">
 				<h2>Heute</h2>
 				{#each homework as hw, i (hw.title)}
-					<button class="task" class:done={done[i]} style:--s={c[hw.subject][0]} aria-pressed={done[i]} onclick={() => (done[i] = !done[i])}>
-						<span class="box">{#if done[i]}<Check size={16} strokeWidth={3} />{/if}</span>
-						<span class="tt">{hw.title}<small>{subjects[hw.subject].name} · {hw.overdue ? 'seit gestern offen' : 'heute'}</small></span>
+					<button
+						class="task"
+						class:done={done[i]}
+						style:--s={c[hw.subject][0]}
+						aria-pressed={done[i]}
+						onclick={() => (done[i] = !done[i])}
+					>
+						<span class="box"
+							>{#if done[i]}<Check size={16} strokeWidth={3} />{/if}</span
+						>
+						<span class="tt"
+							>{hw.title}<small
+								>{subjects[hw.subject].name} · {hw.overdue ? 'seit gestern offen' : 'heute'}</small
+							></span
+						>
 					</button>
 				{/each}
 			</section>
@@ -45,8 +90,16 @@
 			<section class="slab" style:background={c.latein[0]} style:color={c.latein[1]}>
 				<p class="lbl">Heute fällig</p>
 				<p class="mega">{review.due}<span>Karten</span></p>
-				<div class="dots" role="progressbar" aria-valuenow={review.done} aria-valuemax={review.goal} aria-label="Tagesziel">
-					{#each Array(review.goal) as _, i (i)}<span class:on={i < review.done}></span>{/each}
+				<div
+					class="dots"
+					role="progressbar"
+					aria-valuenow={review.done}
+					aria-valuemax={review.goal}
+					aria-label="Tagesziel"
+				>
+					{#each Array.from({ length: review.goal }, (_, i) => i) as i (i)}<span
+							class:on={i < review.done}
+						></span>{/each}
 				</div>
 				<p class="lbl">{review.done} von {review.goal} geschafft · {review.streak} Tage in Folge</p>
 				<button class="go">Los geht’s <ArrowRight size={20} strokeWidth={2.5} /></button>
@@ -85,9 +138,14 @@
 				<h2>Noten <span class="ov">Ø {fmt(overall)}</span></h2>
 				{#each averages as a (a.subject)}
 					<div class="gr">
-						<span class="gname">{a.subject === 'pug' ? subjects.pug.short : subjects[a.subject].name}</span>
+						<span class="gname"
+							>{a.subject === 'pug' ? subjects.pug.short : subjects[a.subject].name}</span
+						>
 						<span class="track">
-							{#if a.avg !== null}<span style:width="{((max - a.avg) / 5) * 100}%" style:background={c[a.subject][0]}></span>{/if}
+							{#if a.avg !== null}<span
+									style:width="{((max - a.avg) / 5) * 100}%"
+									style:background={c[a.subject][0]}
+								></span>{/if}
 						</span>
 						<span class="gv">{fmt(a.avg)}</span>
 					</div>
@@ -116,7 +174,9 @@
 				</span>
 			</button>
 			<div class="ans">
-				<button class="nope" disabled={!flipped}><Undo2 size={20} strokeWidth={2.5} /> Nicht gewusst</button>
+				<button class="nope" disabled={!flipped}
+					><Undo2 size={20} strokeWidth={2.5} /> Nicht gewusst</button
+				>
 				<button class="yep" disabled={!flipped}><Check size={22} strokeWidth={3} /> Gewusst</button>
 			</div>
 			<p class="swipe">Wischen: links nicht gewusst, rechts gewusst</p>
@@ -134,7 +194,9 @@
 		min-height: 100%;
 		background: var(--paper);
 		color: var(--ink);
-		font: 16px/1.4 'Bricolage Grotesque Variable', sans-serif;
+		font:
+			16px/1.4 'Bricolage Grotesque Variable',
+			sans-serif;
 		font-variant-numeric: tabular-nums;
 		padding: 20px 16px 40px;
 		display: flex;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { Snippet } from 'svelte';
 	let {
 		letter,
@@ -7,27 +8,46 @@
 		about,
 		dashboard,
 		quiz
-	}: { letter: string; title: string; note?: string; about: Snippet; dashboard: Snippet; quiz: Snippet } = $props();
+	}: {
+		letter: string;
+		title: string;
+		note?: string;
+		about: Snippet;
+		dashboard: Snippet;
+		quiz: Snippet;
+	} = $props();
+	const links = [
+		{ l: 'a', href: resolve('/design/a') },
+		{ l: 'b', href: resolve('/design/b') },
+		{ l: 'c', href: resolve('/design/c') },
+		{ l: 'd', href: resolve('/design/d') }
+	];
 	let view = $state<'dashboard' | 'quiz'>('dashboard');
 </script>
 
 <div class="shell">
 	<header class="meta">
 		<nav aria-label="Entwürfe">
-			{#each ['a', 'b', 'c', 'd'] as l (l)}
-				<a href="/design/{l}" aria-current={l === letter ? 'page' : undefined}>{l.toUpperCase()}</a>
+			{#each links as { l, href } (l)}
+				<a {href} aria-current={l === letter ? 'page' : undefined}>{l.toUpperCase()}</a>
 			{/each}
 		</nav>
 		<h1>Richtung {letter.toUpperCase()}: {title}</h1>
 		<div class="about">{@render about()}</div>
 		<p class="note">{note}</p>
 		<div class="switch" role="tablist" aria-label="Screen">
-			<button role="tab" aria-selected={view === 'dashboard'} onclick={() => (view = 'dashboard')}>Startseite</button>
-			<button role="tab" aria-selected={view === 'quiz'} onclick={() => (view = 'quiz')}>Abfrage</button>
+			<button role="tab" aria-selected={view === 'dashboard'} onclick={() => (view = 'dashboard')}
+				>Startseite</button
+			>
+			<button role="tab" aria-selected={view === 'quiz'} onclick={() => (view = 'quiz')}
+				>Abfrage</button
+			>
 		</div>
 	</header>
 	<div class="screens" data-view={view}>
-		<section class="phone" data-screen="dashboard" aria-label="Startseite">{@render dashboard()}</section>
+		<section class="phone" data-screen="dashboard" aria-label="Startseite">
+			{@render dashboard()}
+		</section>
 		<section class="phone" data-screen="quiz" aria-label="Abfrage">{@render quiz()}</section>
 	</div>
 </div>
@@ -37,7 +57,9 @@
 		min-height: 100dvh;
 		background: #d9dad6;
 		color: #1d1d1b;
-		font: 15px/1.5 system-ui, sans-serif;
+		font:
+			15px/1.5 system-ui,
+			sans-serif;
 		padding: 16px;
 	}
 	.meta {

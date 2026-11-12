@@ -30,24 +30,71 @@ export const subjects: Record<SubjectKey, { name: string; short: string }> = {
 export const today = { weekday: 'Donnerstag', date: '12. November', short: 'Do, 12.11.' };
 
 export const homework = [
-	{ subject: 'mathe' as SubjectKey, title: 'Ableitungen, AB Aufgabe 3–6', due: 'Überfällig seit gestern', overdue: true },
-	{ subject: 'englisch' as SubjectKey, title: 'Vokabeln Unit 2 wiederholen', due: 'Heute', overdue: false },
-	{ subject: 'deutsch' as SubjectKey, title: 'Gedichtanalyse fertig schreiben', due: 'Heute', overdue: false }
+	{
+		subject: 'mathe' as SubjectKey,
+		title: 'Ableitungen, AB Aufgabe 3–6',
+		due: 'Überfällig seit gestern',
+		overdue: true
+	},
+	{
+		subject: 'englisch' as SubjectKey,
+		title: 'Vokabeln Unit 2 wiederholen',
+		due: 'Heute',
+		overdue: false
+	},
+	{
+		subject: 'deutsch' as SubjectKey,
+		title: 'Gedichtanalyse fertig schreiben',
+		due: 'Heute',
+		overdue: false
+	}
 ];
 
 export const review = { due: 30, done: 12, goal: 30, streak: 4 };
 
 export const decks = [
-	{ subject: 'latein' as SubjectKey, name: 'Latein Wortschatz A (S. 15 + 17)', cards: 42, due: 30, lastUsed: 'Heute' }
+	{
+		subject: 'latein' as SubjectKey,
+		name: 'Latein Wortschatz A (S. 15 + 17)',
+		cards: 42,
+		due: 30,
+		lastUsed: 'Heute'
+	}
 ];
 
 export const exams = [
-	{ subject: 'wr' as SubjectKey, title: 'Kurzarbeit', type: 'Kurzarbeit', date: 'Mo, 16.11.', time: '08:00', days: 4 },
-	{ subject: 'chemie' as SubjectKey, title: '1. Kurzarbeit', type: 'Kurzarbeit', date: 'Mo, 23.11.', time: null, days: 11 },
-	{ subject: 'latein' as SubjectKey, title: '1. Schulaufgabe (Sallust)', type: 'Schulaufgabe', date: 'Mi, 25.11.', time: '09:30', days: 13, deck: 'Latein Wortschatz A (S. 15 + 17)' }
+	{
+		subject: 'wr' as SubjectKey,
+		title: 'Kurzarbeit',
+		type: 'Kurzarbeit',
+		date: 'Mo, 16.11.',
+		time: '08:00',
+		days: 4
+	},
+	{
+		subject: 'chemie' as SubjectKey,
+		title: '1. Kurzarbeit',
+		type: 'Kurzarbeit',
+		date: 'Mo, 23.11.',
+		time: null,
+		days: 11
+	},
+	{
+		subject: 'latein' as SubjectKey,
+		title: '1. Schulaufgabe (Sallust)',
+		type: 'Schulaufgabe',
+		date: 'Mi, 25.11.',
+		time: '09:30',
+		days: 13,
+		deck: 'Latein Wortschatz A (S. 15 + 17)'
+	}
 ];
 
-export const gradePrompt = { subject: 'mathe' as SubjectKey, title: '1. Kurzarbeit', date: '10.11.' };
+export const gradePrompt = {
+	subject: 'mathe' as SubjectKey,
+	title: '1. Kurzarbeit',
+	date: '10.11.'
+};
 
 // Schnitte im Notensystem 1–6 (aus Punkten gerechnet, siehe PLAN.md).
 export const averages: { subject: SubjectKey; avg: number | null; grades: string[] }[] = [
@@ -71,5 +118,10 @@ export const quiz = {
 	forms: 'amō, amāvī, amātum',
 	meaning: 'lieben',
 	hint: null as string | null,
-	next: { front: 'appellāre', forms: 'appellō, appellāvī, appellātum', meaning: 'ansprechen, anrufen; nennen, bezeichnen (als)', hint: 'm. dopp. Akk.: nennen' }
+	next: {
+		front: 'appellāre',
+		forms: 'appellō, appellāvī, appellātum',
+		meaning: 'ansprechen, anrufen; nennen, bezeichnen (als)',
+		hint: 'm. dopp. Akk.: nennen'
+	}
 };

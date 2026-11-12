@@ -2,26 +2,68 @@
 	import '@fontsource-variable/literata';
 	import { Check, ScanLine, X, ChevronRight, Moon } from '@lucide/svelte';
 	import Frame from '../Frame.svelte';
-	import { subjects, today, homework, review, decks, exams, averages, overall, fmt, quiz as q, gradePrompt, type SubjectKey } from '../data';
+	import {
+		subjects,
+		today,
+		homework,
+		review,
+		decks,
+		exams,
+		averages,
+		overall,
+		fmt,
+		quiz as q,
+		gradePrompt,
+		type SubjectKey
+	} from '../data';
 
 	const color: Record<SubjectKey, string> = {
-		mathe: '#8fb3e8', deutsch: '#e8998f', englisch: '#7fc6c0', latein: '#d4b0e3', physik: '#9fd1a3',
-		chemie: '#e8c07f', geo: '#c3d28a', wr: '#d6ab8c', religion: '#b9b4d6', pug: '#e8a3c1'
+		mathe: '#8fb3e8',
+		deutsch: '#e8998f',
+		englisch: '#7fc6c0',
+		latein: '#d4b0e3',
+		physik: '#9fd1a3',
+		chemie: '#e8c07f',
+		geo: '#c3d28a',
+		wr: '#d6ab8c',
+		religion: '#b9b4d6',
+		pug: '#e8a3c1'
 	};
 	let done = $state<boolean[]>(homework.map(() => false));
 	let typed = $state('amo, amavi, amatm');
 	let checked = $state(false);
-	const groups = Array.from({ length: review.goal / 5 }, (_, g) => Math.max(0, Math.min(5, review.done - g * 5)));
+	const groups = Array.from({ length: review.goal / 5 }, (_, g) =>
+		Math.max(0, Math.min(5, review.done - g * 5))
+	);
 </script>
 
 <svelte:head><title>Richtung D – Nachtlernen</title></svelte:head>
 
-<Frame letter="d" title="Nachtlernen" note="Statischer Entwurf. Nur Abhaken und „Prüfen“ in der Abfrage reagieren, alles andere ist noch ohne Funktion.">
+<Frame
+	letter="d"
+	title="Nachtlernen"
+	note="Statischer Entwurf. Nur Abhaken und „Prüfen“ in der Abfrage reagieren, alles andere ist noch ohne Funktion."
+>
 	{#snippet about()}
-		<p><strong>Schrift:</strong> Nur Literata, eine Schrift fürs lange Lesen am Bildschirm. Sie wirkt abends weich und bleibt auch klein gut lesbar. Überschriften sind leicht und groß statt fett.</p>
-		<p><strong>Farben:</strong> Warmes Dunkelbraun statt Schwarz, Text in gedämpftem Elfenbein, Akzent in Lampen-Bernstein. Die Fachfarben sind pastellig, damit nichts blendet. Die Kontraste sind bewusst weich, erfüllen aber WCAG AA.</p>
-		<p><strong>Stimmung:</strong> Schreibtischlampe um 21 Uhr. Wenig Bewegung, nichts blinkt. Das Tagesziel ist eine Strichliste in Fünfergruppen wie auf dem Block. Hier zeige ich den Modus „Eintippen“, inklusive „Fast richtig“.</p>
-		<p><strong>Hellmodus:</strong> Warmes Leinen (#f4efe6) mit dunkelbrauner Schrift. Das Bernstein wird für Text zu einem tieferen Ockerton, die Fachfarben werden kräftiger, damit sie auf Hell lesbar bleiben.</p>
+		<p>
+			<strong>Schrift:</strong> Nur Literata, eine Schrift fürs lange Lesen am Bildschirm. Sie wirkt abends
+			weich und bleibt auch klein gut lesbar. Überschriften sind leicht und groß statt fett.
+		</p>
+		<p>
+			<strong>Farben:</strong> Warmes Dunkelbraun statt Schwarz, Text in gedämpftem Elfenbein, Akzent
+			in Lampen-Bernstein. Die Fachfarben sind pastellig, damit nichts blendet. Die Kontraste sind bewusst
+			weich, erfüllen aber WCAG AA.
+		</p>
+		<p>
+			<strong>Stimmung:</strong> Schreibtischlampe um 21 Uhr. Wenig Bewegung, nichts blinkt. Das Tagesziel
+			ist eine Strichliste in Fünfergruppen wie auf dem Block. Hier zeige ich den Modus „Eintippen“, inklusive
+			„Fast richtig“.
+		</p>
+		<p>
+			<strong>Hellmodus:</strong> Warmes Leinen (#f4efe6) mit dunkelbrauner Schrift. Das Bernstein wird
+			für Text zu einem tieferen Ockerton, die Fachfarben werden kräftiger, damit sie auf Hell lesbar
+			bleiben.
+		</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -36,10 +78,21 @@
 				<ul class="list">
 					{#each homework as hw, i (hw.title)}
 						<li class:done={done[i]}>
-							<button class="tick" aria-pressed={done[i]} aria-label="{hw.title} erledigt" onclick={() => (done[i] = !done[i])}>
+							<button
+								class="tick"
+								aria-pressed={done[i]}
+								aria-label="{hw.title} erledigt"
+								onclick={() => (done[i] = !done[i])}
+							>
 								{#if done[i]}<Check size={14} strokeWidth={2} />{/if}
 							</button>
-							<span class="tx">{hw.title}<small><span style:color={color[hw.subject]}>{subjects[hw.subject].name}</span> · {hw.overdue ? 'war gestern fällig' : 'heute'}</small></span>
+							<span class="tx"
+								>{hw.title}<small
+									><span style:color={color[hw.subject]}>{subjects[hw.subject].name}</span> · {hw.overdue
+										? 'war gestern fällig'
+										: 'heute'}</small
+								></span
+							>
 						</li>
 					{/each}
 				</ul>
@@ -48,22 +101,38 @@
 			<section class="lamp">
 				<h2>Wiederholen</h2>
 				<p class="lead">Heute fällig: <b>{review.due} Karten</b></p>
-				<div class="tally" role="img" aria-label="{review.done} von {review.goal} Karten fürs Tagesziel">
+				<div
+					class="tally"
+					role="img"
+					aria-label="{review.done} von {review.goal} Karten fürs Tagesziel"
+				>
 					{#each groups as n, g (g)}
 						<svg viewBox="0 0 40 28" width="40" height="28" aria-hidden="true">
-							{#each [0, 1, 2, 3] as k (k)}<line x1={6 + k * 8} y1="4" x2={6 + k * 8} y2="24" class:on={k < n} />{/each}
+							{#each [0, 1, 2, 3] as k (k)}<line
+									x1={6 + k * 8}
+									y1="4"
+									x2={6 + k * 8}
+									y2="24"
+									class:on={k < n}
+								/>{/each}
 							<line x1="2" y1="22" x2="36" y2="6" class:on={n === 5} />
 						</svg>
 					{/each}
 				</div>
-				<p class="muted">{review.done} von {review.goal} fürs Tagesziel · {review.streak}. Lerntag in Folge</p>
+				<p class="muted">
+					{review.done} von {review.goal} fürs Tagesziel · {review.streak}. Lerntag in Folge
+				</p>
 				<button class="primary">Weiterlernen</button>
 			</section>
 
 			<section>
 				<h2>Karteikarten</h2>
 				{#each decks as d (d.name)}
-					<a class="row" href="#top"><span class="pip" style:background={color[d.subject]}></span><span class="tx">{d.name}<small>{d.cards} Karten · zuletzt heute</small></span><ChevronRight size={18} strokeWidth={1.5} /></a>
+					<a class="row" href="#top"
+						><span class="pip" style:background={color[d.subject]}></span><span class="tx"
+							>{d.name}<small>{d.cards} Karten · zuletzt heute</small></span
+						><ChevronRight size={18} strokeWidth={1.5} /></a
+					>
 				{/each}
 				<button class="quiet"><ScanLine size={18} strokeWidth={1.5} /> Neue Seite scannen</button>
 			</section>
@@ -72,25 +141,43 @@
 				<h2>Prüfungen</h2>
 				<div class="soon">
 					<p class="soondays">Noch {exams[0].days} Tage</p>
-					<p><span class="pip" style:background={color[exams[0].subject]}></span> {subjects[exams[0].subject].name}, {exams[0].title}</p>
+					<p>
+						<span class="pip" style:background={color[exams[0].subject]}></span>
+						{subjects[exams[0].subject].name}, {exams[0].title}
+					</p>
 					<p class="muted">{exams[0].date}, {exams[0].time} Uhr</p>
 				</div>
 				{#each exams.slice(1) as e (e.date)}
 					<div class="row exam">
 						<span class="pip" style:background={color[e.subject]}></span>
-						<span class="tx">{subjects[e.subject].name}, {e.title}<small>{e.date}{e.time ? `, ${e.time} Uhr` : ''}</small></span>
+						<span class="tx"
+							>{subjects[e.subject].name}, {e.title}<small
+								>{e.date}{e.time ? `, ${e.time} Uhr` : ''}</small
+							></span
+						>
 						<span class="days">Noch {e.days} Tage</span>
 					</div>
 				{/each}
-				{#if exams[2].deck}<p class="tip">Für Latein am 25.11. ist der Stapel „{exams[2].deck}“ verknüpft.</p>{/if}
-				<div class="ask"><span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} ist vorbei.</span><button class="link">Note eintragen?</button></div>
+				{#if exams[2].deck}<p class="tip">
+						Für Latein am 25.11. ist der Stapel „{exams[2].deck}“ verknüpft.
+					</p>{/if}
+				<div class="ask">
+					<span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} ist vorbei.</span><button
+						class="link">Note eintragen?</button
+					>
+				</div>
 			</section>
 
 			<section>
 				<h2>Noten</h2>
 				<div class="grades">
 					{#each averages as a (a.subject)}
-						<div class="g"><span class="gv">{fmt(a.avg)}</span><span class="gn"><span class="pip" style:background={color[a.subject]}></span>{subjects[a.subject].short}</span></div>
+						<div class="g">
+							<span class="gv">{fmt(a.avg)}</span><span class="gn"
+								><span class="pip" style:background={color[a.subject]}></span>{subjects[a.subject]
+									.short}</span
+							>
+						</div>
 					{/each}
 				</div>
 				<p class="muted">Gesamtschnitt <b class="num">{fmt(overall)}</b> aus 4 Fächern</p>
@@ -149,7 +236,9 @@
 		min-height: 100%;
 		background: var(--bg);
 		color: var(--text);
-		font: 16px/1.55 'Literata Variable', serif;
+		font:
+			16px/1.55 'Literata Variable',
+			serif;
 		font-variant-numeric: tabular-nums lining-nums;
 		padding: 28px 20px 40px;
 		display: flex;
@@ -208,7 +297,9 @@
 		place-items: center;
 		padding: 0;
 		flex: none;
-		transition: background 0.2s, border-color 0.2s;
+		transition:
+			background 0.2s,
+			border-color 0.2s;
 	}
 	.tick[aria-pressed='true'] {
 		background: var(--lamp);
@@ -405,7 +496,9 @@
 	.field input {
 		width: 100%;
 		box-sizing: border-box;
-		font: 22px 'Literata Variable', serif;
+		font:
+			22px 'Literata Variable',
+			serif;
 		color: var(--text);
 		background: transparent;
 		border: 0;
