@@ -8,8 +8,8 @@
 	import { subjects, today, homework, review, decks, exams, averages, overall, fmt, quiz as q, gradePrompt, type SubjectKey } from '../data';
 
 	const color: Record<SubjectKey, string> = {
-		mathe: '#1f6f8b', deutsch: '#a23b2a', englisch: '#2f5d9e', latein: '#6e4a86', physik: '#2e7d5b',
-		chemie: '#a8681a', geo: '#58742c', wr: '#86553a', religion: '#5f5f86', pug: '#99385f'
+		mathe: '#1f6f8b', deutsch: '#a23b2a', englisch: '#2f5d9e', latein: '#6e4a86', physik: '#276b4e',
+		chemie: '#8a5512', geo: '#58742c', wr: '#86553a', religion: '#5f5f86', pug: '#99385f'
 	};
 	let done = $state<boolean[]>(homework.map(() => false));
 	let flipped = $state(false);
@@ -22,6 +22,7 @@
 		<p><strong>Schrift:</strong> Source Serif 4 für Überschriften und große Zahlen, IBM Plex Sans für Text und Bedienung. Alle Zahlen sind tabellarisch gesetzt.</p>
 		<p><strong>Farben:</strong> Kühles Heftpapier statt Creme, Tinte in Königsblau für Text und Aktionen und ein roter Heftrand als einziges Ornament. Die Fachfarben sind gedeckt wie Buntstifte.</p>
 		<p><strong>Stimmung:</strong> Ein ordentlich geführtes Heft. Termine und Noten stehen im Rand, wie Anmerkungen der Lehrkraft. Die Karteikarte sieht aus wie eine echte DIN-A7-Karte mit rotem Kopfstrich. Ruhig, vertraut und ernsthaft.</p>
+		<p><strong>Dunkelmodus:</strong> Tintenblaues Nachtpapier (#151c2c) mit hellgrauen Linien. Der Heftrand bleibt rot, aber gedämpft. Die Fachfarben werden aufgehellt, damit sie auf dem dunklen Grund AA-Kontrast halten.</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -31,11 +32,7 @@
 				<h1>{today.weekday},<br />{today.date}</h1>
 			</header>
 
-							<aside class="prompt">
-					<p><span class="dot" style:background={color[gradePrompt.subject]}></span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} vom {gradePrompt.date} ist vorbei.</p>
-					<div class="row"><button class="link">Note eintragen</button><button class="link quiet">Später</button></div>
-				</aside>
-
+			
 			<section>
 				<h2>Heute</h2>
 				<ul class="lines">
@@ -75,8 +72,12 @@
 
 			<section>
 				<h2>Nächste Prüfungen</h2>
+				<div class="next">
+					<p class="nextdays">Noch <span class="num">{exams[0].days}</span> Tage</p>
+					<p><span class="subj" style:color={color[exams[0].subject]}>{subjects[exams[0].subject].name}</span>, {exams[0].title}<small class="num">{exams[0].date}, {exams[0].time} Uhr</small></p>
+				</div>
 				<ul class="lines">
-					{#each exams as e (e.date)}
+					{#each exams.slice(1) as e (e.date)}
 						<li>
 							<span class="margin-note num">{e.date.slice(4)}</span>
 							<span class="txt"><span class="subj" style:color={color[e.subject]}>{subjects[e.subject].name}</span> {e.title}{#if e.time}<small class="num">{e.time} Uhr</small>{/if}</span>
@@ -84,6 +85,10 @@
 						</li>
 					{/each}
 				</ul>
+				<aside class="prompt">
+					<p><span class="dot" style:background={color[gradePrompt.subject]}></span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} vom {gradePrompt.date} ist vorbei.</p>
+					<div class="row"><button class="link">Note eintragen</button><button class="link quiet">Später</button></div>
+				</aside>
 			</section>
 
 			<section>
@@ -111,13 +116,13 @@
 			</header>
 			<div class="ink thin"><span style:width="{(q.position / q.total) * 100}%"></span></div>
 
-			<button class="card" class:flipped onclick={() => (flipped = !flipped)} aria-label="Karte umdrehen">
-				<span class="face front">
+			<button class="card" class:flipped onclick={() => (flipped = !flipped)}>
+				<span class="face front" aria-hidden={flipped}>
 					<span class="cardhead"><span>Latein</span><span>Box {q.box}</span></span>
 					<span class="term">{q.front}</span>
 					<span class="tap">Tippen zum Umdrehen</span>
 				</span>
-				<span class="face back">
+				<span class="face back" aria-hidden={!flipped}>
 					<span class="cardhead"><span>Latein</span><span>Box {q.box}</span></span>
 					<span class="term termsm">{q.front}</span>
 					<span class="forms">{q.forms}</span>
@@ -126,8 +131,8 @@
 			</button>
 
 			<div class="answer" class:show={flipped}>
-				<button class="no"><RotateCcw size={18} strokeWidth={1.5} /> Nicht gewusst</button>
-				<button class="yes"><Check size={18} strokeWidth={1.5} /> Gewusst</button>
+				<button class="no" disabled={!flipped}><RotateCcw size={18} strokeWidth={1.5} /> Nicht gewusst</button>
+				<button class="yes" disabled={!flipped}><Check size={18} strokeWidth={1.5} /> Gewusst</button>
 			</div>
 			<p class="keys">Leertaste: umdrehen · 1 / 2: bewerten · oder wischen</p>
 		</div>
@@ -143,6 +148,8 @@
 		--rand: #cf4438;
 		--blue: #2a4ba0;
 		--margin: 60px;
+		--focus: var(--ink);
+		box-sizing: border-box;
 		min-height: 100%;
 		background:
 			linear-gradient(to right, transparent calc(var(--margin) - 1px), var(--rand) calc(var(--margin) - 1px), var(--rand) var(--margin), transparent var(--margin)),
@@ -201,7 +208,7 @@
 		top: 12px;
 	}
 	.overdue {
-		color: var(--rand);
+		color: #b0362b;
 	}
 	.txt {
 		flex: 1;
@@ -243,7 +250,23 @@
 	.prompt {
 		border-left: 3px solid var(--blue);
 		padding: 2px 0 2px 12px;
-		margin-bottom: 8px;
+		margin-top: 16px;
+	}
+	.next {
+		padding: 4px 0 12px;
+		border-bottom: 1px solid var(--line);
+	}
+	.next p {
+		margin: 0;
+	}
+	.next small {
+		display: block;
+		color: var(--muted);
+		font-size: 13px;
+	}
+	.nextdays {
+		font: 600 40px/1.05 'Source Serif 4 Variable', serif;
+		margin-bottom: 4px !important;
 	}
 	.prompt p {
 		margin: 0;

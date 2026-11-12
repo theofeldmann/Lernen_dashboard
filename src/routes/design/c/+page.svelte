@@ -22,6 +22,7 @@
 		<p><strong>Schrift:</strong> Bricolage Grotesque in vielen Schnitten: extrafett und schmal für große Zahlen und Überschriften, normal für Text. Die Typo selbst ist die Grafik.</p>
 		<p><strong>Farben:</strong> Weiß und fast Schwarz als Bühne, darauf große, flache Flächen in den Fachfarben. Latein ist Gelb, Mathe Blau, Deutsch Orangerot. Keine Verläufe und keine Schatten, Schrift auf Farbe ist immer kontrastgeprüft.</p>
 		<p><strong>Stimmung:</strong> Selbstbewusst und ein bisschen verspielt, wie ein gut gestaltetes Schulbuch-Cover. Was ansteht, nimmt Fläche ein. Beim Abfragen färbt sich der ganze Bildschirm in der Fachfarbe.</p>
+		<p><strong>Dunkelmodus:</strong> Fast schwarze Bühne (#161616). Die Fachflächen bleiben kräftig, werden aber eine Spur dunkler. Schrift darauf wird je nach Fläche hell oder dunkel gesetzt, damit der Kontrast stimmt.</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -76,7 +77,7 @@
 			</section>
 
 			<section class="prompt" style:--s={c[gradePrompt.subject][0]}>
-				<p>Wie lief <b>{subjects[gradePrompt.subject].name}</b>, {gradePrompt.title}?</p>
+				<p>Wie lief die {gradePrompt.title} in <b>Mathe</b>?</p>
 				<button>Note eintragen</button>
 			</section>
 
@@ -84,7 +85,7 @@
 				<h2>Noten <span class="ov">Ø {fmt(overall)}</span></h2>
 				{#each averages as a (a.subject)}
 					<div class="gr">
-						<span class="gname">{subjects[a.subject].name}</span>
+						<span class="gname">{a.subject === 'pug' ? subjects.pug.short : subjects[a.subject].name}</span>
 						<span class="track">
 							{#if a.avg !== null}<span style:width="{((max - a.avg) / 5) * 100}%" style:background={c[a.subject][0]}></span>{/if}
 						</span>
@@ -102,23 +103,23 @@
 				<button class="x" aria-label="Abfrage beenden"><X size={22} strokeWidth={2.5} /></button>
 				<span class="qn">{q.position}<span>/{q.total}</span></span>
 			</header>
-			<button class="card" class:flipped onclick={() => (flipped = !flipped)} aria-label="Karte umdrehen">
-				<span class="side front">
+			<button class="card" class:flipped onclick={() => (flipped = !flipped)}>
+				<span class="side front" aria-hidden={flipped}>
 					<span class="ct">Was heißt</span>
 					<span class="word">{q.front}</span>
 					<span class="ct small">Tippen zum Umdrehen</span>
 				</span>
-				<span class="side back">
+				<span class="side back" aria-hidden={!flipped}>
 					<span class="ct">{q.front}</span>
 					<span class="word sm">{q.meaning}</span>
 					<span class="forms">{q.forms}</span>
 				</span>
 			</button>
 			<div class="ans">
-				<button class="nope"><Undo2 size={22} strokeWidth={2.5} /> Nicht gewusst</button>
-				<button class="yep"><Check size={22} strokeWidth={3} /> Gewusst</button>
+				<button class="nope" disabled={!flipped}><Undo2 size={20} strokeWidth={2.5} /> Nicht gewusst</button>
+				<button class="yep" disabled={!flipped}><Check size={22} strokeWidth={3} /> Gewusst</button>
 			</div>
-			<p class="swipe">Nach links wischen: nicht gewusst · nach rechts: gewusst</p>
+			<p class="swipe">Wischen: links nicht gewusst, rechts gewusst</p>
 		</div>
 	{/snippet}
 </Frame>
@@ -128,6 +129,8 @@
 		--ink: #1b1b1b;
 		--paper: #ffffff;
 		--soft: #f1f1ee;
+		--focus: #1b1b1b;
+		box-sizing: border-box;
 		min-height: 100%;
 		background: var(--paper);
 		color: var(--ink);
@@ -201,7 +204,7 @@
 	}
 	.task.done .tt {
 		text-decoration: line-through;
-		opacity: 0.6;
+		color: #55554f;
 	}
 	.tt {
 		font-weight: 600;
@@ -339,7 +342,6 @@
 	}
 	.ed {
 		font-size: 14px;
-		opacity: 0.85;
 	}
 	.prompt {
 		background: var(--ink);
@@ -488,11 +490,17 @@
 		min-height: 64px;
 		border-radius: 20px;
 		font-weight: 800;
-		font-size: 19px;
+		font-size: 16px;
+		white-space: nowrap;
+		padding: 0 8px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		gap: 8px;
+	}
+	.ans button:disabled {
+		opacity: 0.45;
+		cursor: default;
 	}
 	.nope {
 		background: transparent;

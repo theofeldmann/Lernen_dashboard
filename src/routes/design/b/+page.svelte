@@ -20,6 +20,7 @@
 		<p><strong>Schrift:</strong> Nur Geist, aber mit klarer Hierarchie über Gewicht und Größe. Alle Zahlen sind tabellarisch und rechtsbündig, damit Spalten sauber stehen.</p>
 		<p><strong>Farben:</strong> Kühles Neutralgrau, Weiß und Graphit. Signalorange ist die einzige Akzentfarbe und markiert nur die eine Aktion, die gerade zählt. Fachfarben erscheinen nur als kleine Marker.</p>
 		<p><strong>Stimmung:</strong> Wie ein gutes Profi-Werkzeug: dicht, schnell und ohne Deko. Viel Information auf einen Blick. Tastenkürzel sind sichtbar, Module haben je nach Wichtigkeit unterschiedliche Größen.</p>
+		<p><strong>Dunkelmodus:</strong> Graphit (#17191d) mit Flächen eine Stufe heller und feinen Rahmen statt Schatten. Das Orange wird für Text etwas heller. Falls dir eine einzige Schrift zu nüchtern ist, kann für Zahlen eine zweite dazukommen.</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -27,15 +28,10 @@
 			<header class="bar">
 				<div>
 					<h1>{today.weekday}, {today.date}</h1>
-					<p class="sub">3 offen · 42 Karten fällig · nächste Prüfung in 4 Tagen</p>
+					<p class="sub">3 offen · {review.due} Karten fällig · nächste Prüfung in 4 Tagen</p>
 				</div>
 			</header>
 
-			<div class="notice">
-				<CircleAlert size={16} strokeWidth={1.75} />
-				<span><b>{subjects[gradePrompt.subject].name}</b>, {gradePrompt.title} ({gradePrompt.date}) – Note eintragen?</span>
-				<button class="ghost">Eintragen</button>
-			</div>
 
 			<section class="panel">
 				<h2>Heute <span class="count">3</span></h2>
@@ -93,11 +89,16 @@
 							<tr>
 								<td class="tn d">{e.date.slice(4)}</td>
 								<td><span class="mark" style:background={color[e.subject]}></span>{subjects[e.subject].short} · {e.title}</td>
-								<td class="tn r">{e.days} T</td>
+								<td class="tn r">in {e.days} Tagen</td>
 							</tr>
 						{/each}
 					</tbody>
 				</table>
+				<div class="notice">
+				<CircleAlert size={16} strokeWidth={1.75} />
+				<span><b>{subjects[gradePrompt.subject].name}</b>, {gradePrompt.title} ({gradePrompt.date}) – Note eintragen?</span>
+				<button class="ghost">Eintragen</button>
+			</div>
 			</section>
 
 			<section class="panel">
@@ -131,7 +132,8 @@
 				<button aria-pressed="true">Umdrehen</button><button aria-pressed="false">Eintippen</button><button aria-pressed="false">Auswahl</button>
 			</div>
 
-			<button class="qcard" onclick={() => (flipped = !flipped)} aria-label="Karte umdrehen">
+			<button class="qcard" onclick={() => (flipped = !flipped)}>
+				{#key flipped}<span class="flip">
 				<span class="row1"><span><span class="mark" style:background={color.latein}></span>Latein → Deutsch</span><span class="tn">Box {q.box}</span></span>
 				<span class="term">{q.front}</span>
 				{#if flipped}
@@ -142,6 +144,7 @@
 				{:else}
 					<span class="hint">Umdrehen <kbd>Leertaste</kbd></span>
 				{/if}
+				</span>{/key}
 			</button>
 
 			<div class="answers">
@@ -161,6 +164,8 @@
 		--muted: #5f6672;
 		--border: #e1e4e8;
 		--accent: #c2410c;
+		--focus: #16181d;
+		box-sizing: border-box;
 		min-height: 100%;
 		background: var(--bg);
 		color: var(--text);
@@ -210,6 +215,7 @@
 		padding: 10px 12px;
 	}
 	.notice {
+		margin-top: 8px;
 		display: flex;
 		align-items: center;
 		gap: 8px;
@@ -458,6 +464,19 @@
 		padding: 14px 16px;
 		color: var(--text);
 	}
+	.flip {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		animation: flip 0.22s cubic-bezier(0.3, 0.7, 0.2, 1);
+		transform-origin: center;
+	}
+	@keyframes flip {
+		from {
+			transform: perspective(900px) rotateX(-70deg);
+			opacity: 0.3;
+		}
+	}
 	.row1 {
 		display: flex;
 		justify-content: space-between;
@@ -518,7 +537,8 @@
 		text-align: center;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		dl {
+		dl,
+		.flip {
 			animation: none;
 		}
 		.check {

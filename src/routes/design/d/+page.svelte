@@ -16,11 +16,12 @@
 
 <svelte:head><title>Richtung D – Nachtlernen</title></svelte:head>
 
-<Frame letter="d" title="Nachtlernen">
+<Frame letter="d" title="Nachtlernen" note="Statischer Entwurf. Nur Abhaken und „Prüfen“ in der Abfrage reagieren, alles andere ist noch ohne Funktion.">
 	{#snippet about()}
 		<p><strong>Schrift:</strong> Nur Literata, eine Schrift fürs lange Lesen am Bildschirm. Sie wirkt abends weich und bleibt auch klein gut lesbar. Überschriften sind leicht und groß statt fett.</p>
 		<p><strong>Farben:</strong> Warmes Dunkelbraun statt Schwarz, Text in gedämpftem Elfenbein, Akzent in Lampen-Bernstein. Die Fachfarben sind pastellig, damit nichts blendet. Die Kontraste sind bewusst weich, erfüllen aber WCAG AA.</p>
 		<p><strong>Stimmung:</strong> Schreibtischlampe um 21 Uhr. Wenig Bewegung, nichts blinkt. Das Tagesziel ist eine Strichliste in Fünfergruppen wie auf dem Block. Hier zeige ich den Modus „Eintippen“, inklusive „Fast richtig“.</p>
+		<p><strong>Hellmodus:</strong> Warmes Leinen (#f4efe6) mit dunkelbrauner Schrift. Das Bernstein wird für Text zu einem tieferen Ockerton, die Fachfarben werden kräftiger, damit sie auf Hell lesbar bleiben.</p>
 	{/snippet}
 
 	{#snippet dashboard()}
@@ -69,14 +70,19 @@
 
 			<section>
 				<h2>Prüfungen</h2>
-				{#each exams as e (e.date)}
+				<div class="soon">
+					<p class="soondays">Noch {exams[0].days} Tage</p>
+					<p><span class="pip" style:background={color[exams[0].subject]}></span> {subjects[exams[0].subject].name}, {exams[0].title}</p>
+					<p class="muted">{exams[0].date}, {exams[0].time} Uhr</p>
+				</div>
+				{#each exams.slice(1) as e (e.date)}
 					<div class="row exam">
 						<span class="pip" style:background={color[e.subject]}></span>
 						<span class="tx">{subjects[e.subject].name}, {e.title}<small>{e.date}{e.time ? `, ${e.time} Uhr` : ''}</small></span>
 						<span class="days">Noch {e.days} Tage</span>
 					</div>
 				{/each}
-				{#if exams[2].deck}<p class="tip">Für Latein am 25.11.: „{exams[2].deck}“ ist verknüpft.</p>{/if}
+				{#if exams[2].deck}<p class="tip">Für Latein am 25.11. ist der Stapel „{exams[2].deck}“ verknüpft.</p>{/if}
 				<div class="ask"><span>{subjects[gradePrompt.subject].name}, {gradePrompt.title} ist vorbei.</span><button class="link">Note eintragen?</button></div>
 			</section>
 
@@ -138,6 +144,8 @@
 		--text: #eee4d5;
 		--muted: #b3a693;
 		--lamp: #e8b063;
+		--focus: #e8b063;
+		box-sizing: border-box;
 		min-height: 100%;
 		background: var(--bg);
 		color: var(--text);
@@ -291,6 +299,19 @@
 		height: 8px;
 		border-radius: 50%;
 		flex: none;
+	}
+	.soon {
+		padding: 4px 0 14px;
+		border-bottom: 1px solid var(--line);
+	}
+	.soon p {
+		margin: 0;
+	}
+	.soondays {
+		font-size: 34px;
+		font-weight: 350;
+		color: var(--lamp);
+		line-height: 1.15;
 	}
 	.days {
 		font-size: 14px;

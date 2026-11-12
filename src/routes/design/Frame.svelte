@@ -1,6 +1,13 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	let { letter, title, about, dashboard, quiz }: { letter: string; title: string; about: Snippet; dashboard: Snippet; quiz: Snippet } = $props();
+	let {
+		letter,
+		title,
+		note = 'Statischer Entwurf. Nur Umdrehen und Abhaken reagieren, alles andere ist noch ohne Funktion.',
+		about,
+		dashboard,
+		quiz
+	}: { letter: string; title: string; note?: string; about: Snippet; dashboard: Snippet; quiz: Snippet } = $props();
 	let view = $state<'dashboard' | 'quiz'>('dashboard');
 </script>
 
@@ -13,7 +20,7 @@
 		</nav>
 		<h1>Richtung {letter.toUpperCase()}: {title}</h1>
 		<div class="about">{@render about()}</div>
-		<p class="note">Statischer Entwurf. Nur Umdrehen und Abhaken reagieren, alles andere ist noch ohne Funktion.</p>
+		<p class="note">{note}</p>
 		<div class="switch" role="tablist" aria-label="Screen">
 			<button role="tab" aria-selected={view === 'dashboard'} onclick={() => (view = 'dashboard')}>Startseite</button>
 			<button role="tab" aria-selected={view === 'quiz'} onclick={() => (view = 'quiz')}>Abfrage</button>
@@ -99,7 +106,7 @@
 		position: relative;
 	}
 	:global(:focus-visible) {
-		outline: 2px solid currentColor;
+		outline: 2px solid var(--focus, #1d1d1b);
 		outline-offset: 2px;
 	}
 	@media (max-width: 860px) {
