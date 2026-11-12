@@ -18,3 +18,11 @@ Kleine Entscheidungen, die ich selbst getroffen habe, plus die bestätigten Antw
 - Schriften werden über `@fontsource` selbst gehostet, Icons kommen aus `@lucide/svelte` (Strichstärke 1,5–2,5 je nach Richtung).
 - Die Entwürfe nutzen echte Notion-Daten. Die drei Hausaufgaben sind Beispiele, weil Notion keine enthielt.
 - In den Entwürfen funktionieren nur Umdrehen, Abhaken und die Eintipp-Prüfung (D). Darauf weist ein Hinweis oben auf jeder Seite hin.
+
+## Design-Auswahl (12.11.2026)
+
+- Gewählt: **Richtung B „Präzises Werkzeug“**. Tokens in `src/lib/styles/tokens.css`, Regeln in `docs/DESIGN.md`.
+- Die Entwurfsrouten `/design/a–d` sind gelöscht, nicht mehr gebrauchte Schriften deinstalliert. Die Screens von B liegen als Referenz in `docs/design/`.
+- Fachfarben werden als Token-Name gespeichert (z. B. `violett`), damit hell und dunkel automatisch passen. Zwölf Farben stehen zur Wahl, zwei davon sind für neue Fächer frei.
+- Kräftige Rahmen (`--border-strong`, z. B. für Checkboxen) haben mindestens 3:1 Kontrast (WCAG 1.4.11).
+- Bei einer Schrift (Geist) geblieben. Eine zweite Schrift für Zahlen wäre möglich, ist aber nicht nötig.

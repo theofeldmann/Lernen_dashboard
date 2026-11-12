@@ -1,0 +1,184 @@
+/*
+ * Design-Tokens „Präzises Werkzeug“ (Richtung B, gewählt am 12.11.2026).
+ * Einzige Quelle für Farben, Typografie, Abstände, Radien und Bewegung.
+ * Kontraste werden in tokens.test.ts geprüft (WCAG AA).
+ */
+
+:root {
+	color-scheme: light;
+
+	/* Neutrale Flächen und Text */
+	--bg: #f3f4f6;
+	--surface: #ffffff;
+	--surface-sunken: #e8eaed;
+	--border: #e1e4e8;
+	--border-strong: #80878f;
+	--text: #16181d;
+	--text-muted: #5b626d;
+	--text-on-accent: #ffffff;
+
+	/* Akzent (änderbar in Einstellungen → Darstellung) */
+	--accent: var(--accent-orange);
+	--accent-soft: color-mix(in srgb, var(--accent) 10%, var(--surface));
+	--accent-orange: #c2410c;
+	--accent-blue: #1d4ed8;
+	--accent-green: #047857;
+	--accent-violet: #6d28d9;
+	--accent-graphite: #16181d;
+
+	/* Status, bewusst zurückhaltend */
+	--positive: #047857;
+	--danger: #b91c1c;
+	--focus: #16181d;
+
+	/* Fachfarben: als Marker und als Text auf --surface/--bg lesbar */
+	--subject-blau: #2563eb;
+	--subject-rot: #c81e1e;
+	--subject-petrol: #0e7490;
+	--subject-violett: #7c3aed;
+	--subject-gruen: #047857;
+	--subject-ocker: #a5520a;
+	--subject-oliv: #4d7c0f;
+	--subject-rost: #9a3412;
+	--subject-schiefer: #475569;
+	--subject-magenta: #be185d;
+	--subject-tuerkis: #0f766e;
+	--subject-indigo: #4338ca;
+
+	/* Typografie */
+	--font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+	--text-xs: 0.78125rem; /* 12,5 px */
+	--text-sm: 0.8125rem; /* 13 px */
+	--text-base: 0.875rem; /* 14 px */
+	--text-md: 1rem; /* 16 px */
+	--text-lg: 1.125rem; /* 18 px */
+	--text-xl: 1.375rem; /* 22 px */
+	--text-2xl: 1.75rem; /* 28 px */
+	--text-display: 2.75rem; /* 44 px */
+	--leading-tight: 1.15;
+	--leading-normal: 1.45;
+	--weight-regular: 400;
+	--weight-medium: 500;
+	--weight-semibold: 600;
+	--weight-bold: 650;
+	--tracking-tight: -0.02em;
+	--tracking-display: -0.04em;
+
+	/* Abstände (4er-Raster) */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--gutter: 12px;
+
+	/* Radien */
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 10px;
+
+	/* Größen */
+	--control-sm: 36px;
+	--control-md: 44px;
+	--control-lg: 48px;
+	--marker-w: 3px;
+	--marker-h: 14px;
+
+	/* Bewegung */
+	--duration-fast: 120ms;
+	--duration-base: 200ms;
+	--duration-slow: 320ms;
+	--ease-out: cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+/* Dunkelmodus: per Einstellung „dunkel“ oder per System, wenn nicht ausdrücklich „hell“ gewählt.
+   Die Werte stehen zweimal (CSS kann Media-Query und Attribut nicht vereinen); tokens.test.ts prüft, dass beide gleich sind. */
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #16181c;
+	--surface: #1f2228;
+	--surface-sunken: #2a2e35;
+	--border: #30353d;
+	--border-strong: #6b7380;
+	--text: #eceef1;
+	--text-muted: #a3aab4;
+	--text-on-accent: #16181c;
+
+	--accent-orange: #fb8c4a;
+	--accent-blue: #7aa2f7;
+	--accent-green: #34d399;
+	--accent-violet: #b197fc;
+	--accent-graphite: #eceef1;
+
+	--positive: #34d399;
+	--danger: #f87171;
+	--focus: #eceef1;
+
+	--subject-blau: #7aa2f7;
+	--subject-rot: #f87171;
+	--subject-petrol: #38bdd8;
+	--subject-violett: #b197fc;
+	--subject-gruen: #34d399;
+	--subject-ocker: #f2a93b;
+	--subject-oliv: #a3d14a;
+	--subject-rost: #fb9a62;
+	--subject-schiefer: #a3b1c4;
+	--subject-magenta: #f47ab6;
+	--subject-tuerkis: #2dd4bf;
+	--subject-indigo: #9aa5ff;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--bg: #16181c;
+		--surface: #1f2228;
+		--surface-sunken: #2a2e35;
+		--border: #30353d;
+		--border-strong: #6b7380;
+		--text: #eceef1;
+		--text-muted: #a3aab4;
+		--text-on-accent: #16181c;
+
+		--accent-orange: #fb8c4a;
+		--accent-blue: #7aa2f7;
+		--accent-green: #34d399;
+		--accent-violet: #b197fc;
+		--accent-graphite: #eceef1;
+
+		--positive: #34d399;
+		--danger: #f87171;
+		--focus: #eceef1;
+
+		--subject-blau: #7aa2f7;
+		--subject-rot: #f87171;
+		--subject-petrol: #38bdd8;
+		--subject-violett: #b197fc;
+		--subject-gruen: #34d399;
+		--subject-ocker: #f2a93b;
+		--subject-oliv: #a3d14a;
+		--subject-rost: #fb9a62;
+		--subject-schiefer: #a3b1c4;
+		--subject-magenta: #f47ab6;
+		--subject-tuerkis: #2dd4bf;
+		--subject-indigo: #9aa5ff;
+	}
+}
+
+/* Akzent-Auswahl */
+:root[data-accent='blue'] {
+	--accent: var(--accent-blue);
+}
+:root[data-accent='green'] {
+	--accent: var(--accent-green);
+}
+:root[data-accent='violet'] {
+	--accent: var(--accent-violet);
+}
+:root[data-accent='graphite'] {
+	--accent: var(--accent-graphite);
+}
