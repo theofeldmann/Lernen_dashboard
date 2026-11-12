@@ -104,7 +104,7 @@
 						<span style:width="{(review.done / review.goal) * 100}%"></span>
 					</div>
 					<p class="meta"><span class="tn">{review.done}/{review.goal}</span> Tagesziel</p>
-					<button class="primary">Start <kbd>↵</kbd></button>
+					<button class="primary">Start <kbd aria-hidden="true">↵</kbd></button>
 				</section>
 				<section class="panel mini">
 					<Flame size={16} strokeWidth={1.75} />
@@ -434,6 +434,9 @@
 	.wide {
 		width: 100%;
 		margin-top: 8px;
+	}
+	.primary kbd {
+		opacity: 1;
 	}
 	kbd {
 		font:

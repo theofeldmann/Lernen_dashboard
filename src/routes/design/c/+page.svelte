@@ -406,6 +406,7 @@
 		font-size: 14px;
 	}
 	.prompt {
+		--focus: #ffffff;
 		background: var(--ink);
 		color: #fff;
 		border-radius: 22px;
