@@ -25,20 +25,20 @@
 	--accent-wein: #881337;
 
 	/* Status: nur für zerstörende Aktionen (z. B. Konto löschen) */
-	--danger: #b91c1c;
+	--danger: #b80f25;
 	--focus: #16181d;
 
 	/* Fachfarben: als Marker und als Text auf --surface/--bg lesbar */
 	--subject-blau: #1d55d6;
-	--subject-rot: #c81e1e;
-	--subject-petrol: #0b5394;
+	--subject-rot: #d1002a;
+	--subject-petrol: #0b4e89;
 	--subject-violett: #7c3aed;
 	--subject-gruen: #047857;
 	--subject-senf: #7f6400;
 	--subject-oliv: #466f0d;
 	--subject-braun: #7a4b2a;
 	--subject-schiefer: #475569;
-	--subject-magenta: #be185d;
+	--subject-magenta: #c01b63;
 	--subject-tuerkis: #00727a;
 	--subject-pflaume: #86198f;
 
@@ -106,8 +106,8 @@
 	--text-on-accent: #16181c;
 
 	--accent-orange: #fb8c4a;
-	--accent-tanne: #86d9a8;
-	--accent-wein: #fda4c0;
+	--accent-tanne: #afe4b8;
+	--accent-wein: #fbadc1;
 
 	--danger: #f87171;
 	--focus: #eceef1;
@@ -139,8 +139,8 @@
 		--text-on-accent: #16181c;
 
 		--accent-orange: #fb8c4a;
-		--accent-tanne: #86d9a8;
-		--accent-wein: #fda4c0;
+		--accent-tanne: #afe4b8;
+		--accent-wein: #fbadc1;
 
 		--danger: #f87171;
 		--focus: #eceef1;

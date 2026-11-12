@@ -45,7 +45,7 @@ In der Datenbank wird nur der Name des Tokens gespeichert (z. B. `violett`), nie
 
 ## Akzentfarben
 
-- Wählbar sind **Orange** (Standard), **Tanne** und **Wein**. Sie sind so gewählt, dass keine einer Fachfarbe, der Gefahr-Farbe oder der Textfarbe gleicht. Ein Test prüft den Mindestabstand.
+- Wählbar sind **Orange** (Standard), **Tanne** und **Wein**. Sie sind so gewählt, dass keine einer Fachfarbe, der Gefahr-Farbe oder der Textfarbe gleicht. Ein Test prüft den wahrgenommenen Farbabstand (CIEDE2000): Akzent zu Fach- und Gefahr-Farbe mindestens 12, Fachfarben untereinander mindestens 10.
 - Status: Nur `--danger` für zerstörende Aktionen, zum Beispiel „Konto löschen“. Für richtig und falsch gibt es keine Ampelfarben, die Abfrage arbeitet mit Graphit, Grau und Akzent.
 
 ## Bewegung
