@@ -80,7 +80,7 @@ Alle Nutzertabellen haben `id uuid pk`, `user_id uuid not null references auth.u
 
 | Tabelle | Wichtige Felder | Hinweise |
 |---|---|---|
-| `allowed_emails` | `email` (pk), `invited_at`, `note` | **Kein** Zugriff für Nutzer (RLS an, keine Policy). Nur service_role + Auth-Hook. |
+| `allowed_emails` | `email` (pk), `invited_at`, `note` | RLS an, keine Policy für Nutzer; nur eine Lese-Policy für `supabase_auth_admin` (Auth-Hook) und Zugriff über service_role (`invite.ts`). |
 | `profiles` | `user_id` (pk), `grade_system` ('noten'\|'punkte'), `theme`, `accent`, `week_start`, `daily_goal`, `leitner_intervals int[5]` (Tage, Std. 1,3,7,14,30), `default_quiz_mode`, `default_direction`, `keep_originals bool`, `dashboard_modules jsonb` (Reihenfolge + sichtbar) | 1:1 zum Nutzer, wird beim ersten Login angelegt. |
 | `subjects` | `name`, `short`, `color` (Token-Name), `icon` (Lucide-Name), `position`, `hidden bool`, `calc_mode` ('per_grade'\|'per_group'), `group_weight_big`, `group_weight_small` | „Ausblenden statt löschen“. |
 | `exam_types` | `name`, `default_weight numeric`, `group` ('gross'\|'klein'), `position`, `archived bool` | Global pro Nutzer. Löschen = archivieren, wenn noch Noten daran hängen. |
@@ -159,7 +159,7 @@ Tests insgesamt: Vitest (Domain-Logik), pgTAP (RLS), Playwright (Kernabläufe, T
 
 ## 6. Offene Fragen (mit meiner Hypothese)
 
-1. **Tendenzen im Schnitt (Notensystem 1–6):** Ich rechne intern mit Punkten, also zählen Tendenzen mit (2- ist schlechter als 2). An bayerischen Gymnasien werden Tendenzen im Zeugnisschnitt oft *nicht* mitgerechnet. *Hypothese:* Tendenzen zählen mit, so wie die Tabelle im Auftrag es nahelegt, und der Schnitt wird für die Anzeige als Note mit zwei Nachkommastellen ausgegeben (Umrechnung Punkte → Note: (17 − P)/3, bei 0 Punkten 6,00).
+1. **Tendenzen im Schnitt (Notensystem 1–6):** Ich rechne intern mit Punkten, also zählen Tendenzen mit (2- ist schlechter als 2). An bayerischen Gymnasien werden Tendenzen im Zeugnisschnitt oft *nicht* mitgerechnet. *Hypothese:* Tendenzen zählen mit, so wie die Tabelle im Auftrag es nahelegt, und der Schnitt wird für die Anzeige als Note mit zwei Nachkommastellen ausgegeben (Umrechnung Punkte → Note: (17 − P)/3, begrenzt auf 1,00–6,00).
 2. **Login in der installierten iPhone-App:** Ein Magic Link öffnet sich auf dem iPhone in Safari, nicht in der installierten PWA – dort bist du dann eingeloggt, in der App aber nicht. *Hypothese:* Die Mail enthält zusätzlich einen 6-stelligen Code, den man in der App eintippt. Link und Code funktionieren beide.
 3. **Stammformen eintippen:** Bei „amāre → amō, amāvī, amātum“ müssen *alle* Formen in der richtigen Reihenfolge stimmen (Tippfehler-Toleranz pro Form), anders als bei Bedeutungen, wo eine reicht. Einträge wie „Adv.“, „Präp. m. Akk.“ oder „–“ gelten nicht als abfragbare Formen; solche Karten werden bei „nur Stammformen“ übersprungen.
 4. **Supabase-Projekt:** In dieser Umgebung ist ein Supabase-Zugang verbunden. *Hypothese:* Ich entwickle und teste lokal (Supabase CLI + Docker), und **du** legst das echte Projekt an (Region Frankfurt `eu-central-1`) und trägst die Keys ein. Alternativ lege ich es mit deiner Erlaubnis direkt über den Zugang an.
